@@ -27,3 +27,4 @@ class Chemiscope(DOMWidget, ValueWidget):
 
     with open('../chemiscope.json') as f:
         value = Unicode(json.dumps(json.load(f))).tag(sync=True)
+

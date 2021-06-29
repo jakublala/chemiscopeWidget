@@ -6,22 +6,14 @@ import {
   DOMWidgetView,
   ISerializers,
 } from '@jupyter-widgets/base';
-/**
-declare var require: any;
 
-require.config({
-  //Define 3rd party plugins dependencies
-  paths: {
-    jquery: 'https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min',
-    jquery_ui:
-      'https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min',
-  },
-}); 
-*/
+import { default as $ } from 'jquery';
+(window as any).$ = $;
 
 import { MODULE_NAME, MODULE_VERSION } from './version';
 
 // Import the CSS
+import '../css/bootstrap-iso.css';
 import '../css/widget.css';
 
 import { DefaultVisualizer } from 'chemiscope';
@@ -55,57 +47,52 @@ export class ChemiscopeModel extends DOMWidgetModel {
 
 export class ChemiscopeView extends DOMWidgetView {
   render() {
-    this._chemiscopeElement = document.createElement('div');
-    this._chemiscopeElement.innerHTML = `
+    this.el.innerHTML = `
+      <div class="bootstrap-iso">
+        <div id="chemiscope-widget-container">
+          <div id="chemiscope-meta-and-map">
+            <div id="chemiscope-meta"></div>
+            <div id="chemiscope-map" ></div>
+          </div>
+          <div id="chemiscope-structure-and-info">
+            <div id="chemiscope-structure"></div>
+            <div id="chemiscope-info"></div>
+          </div>
+        </div>
+      </div>`;
 
-
-    <main class="container-fluid">
-            <div class="row">
-                <div class="col-md-7" style="padding: 0">
-                    <div class="embed-responsive embed-responsive-1by1">
-                        <div id="chemiscope-meta"></div>
-                        <div id="chemiscope-map" class="embed-responsive-item" style="position: absolute"></div>
-                    </div>
-                </div>
-                
-                <div class="col-md-5" style="padding: 0">
-                    <div class="embed-responsive embed-responsive-5by7">
-                        <div class="embed-responsive-item">
-                            <!-- height: 0 below is a hack to force safari to
-                            respect height: 100% on the children
-                            https://github.com/philipwalton/flexbugs/issues/197#issuecomment-378908438
-                            -->
-                            <div id="chemiscope-structure" style="height: 0"></div>
-                            <div id="chemiscope-info"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </main>`;
-    this.value_changed();
-    this.model.on('change:value', this.value_changed, this);
-  }
-
-  value_changed() {
-    this.el.appendChild(this._chemiscopeElement);
     const config = {
-      map: 'chemiscope-map',
-      info: 'chemiscope-info',
-      meta: 'chemiscope-meta',
-      structure: 'chemiscope-structure',
+      map: this.el.querySelector('#chemiscope-map') as HTMLElement,
+      info: this.el.querySelector('#chemiscope-info') as HTMLElement,
+      meta: this.el.querySelector('#chemiscope-meta') as HTMLElement,
+      structure: this.el.querySelector('#chemiscope-structure') as HTMLElement,
     };
-
-    DefaultVisualizer.load(config, this.model.get('value')).then(
-      (newVisualizer) => {
+    DefaultVisualizer.load(config, JSON.parse(this.model.get('value'))).then(
+      (newVisualizer: any) => {
         this.visualizer = newVisualizer;
       }
     );
+    //   //this.value_changed();
+    //   // this.model.on('change:value', this.value_changed, this);
+    // }
+    // // value_changed() {
+    // //   const config = {
+    // //     map: 'chemiscope-map',
+    // //     info: 'chemiscope-info',
+    // //     meta: 'chemiscope-meta',
+    // //     structure: 'chemiscope-structure',
+    // //   };
+    // //   DefaultVisualizer.load(config, this.model.get('value')).then(
+    // //     (newVisualizer) => {
+    // //       this.visualizer = newVisualizer;
+    // //     }
+    // //   );
+    // // }
   }
-
   remove() {
-    this.visualizer.remove();
+    if (this.visualizer !== undefined) {
+      this.visualizer.remove();
+    }
   }
-
   private visualizer: DefaultVisualizer;
-  private _chemiscopeElement: HTMLDivElement;
 }
