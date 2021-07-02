@@ -48,7 +48,7 @@ export class ChemiscopeModel extends DOMWidgetModel {
 export class ChemiscopeView extends DOMWidgetView {
   render() {
     this.el.innerHTML = `
-      <div class="bootstrap-iso">
+    <div class="bootstrap-iso">
         <div id="chemiscope-widget-container">
           <div id="chemiscope-meta-and-map">
             <div id="chemiscope-meta"></div>
@@ -59,6 +59,7 @@ export class ChemiscopeView extends DOMWidgetView {
             <div id="chemiscope-info"></div>
           </div>
         </div>
+      </div>
       </div>`;
 
     const config = {
@@ -67,27 +68,12 @@ export class ChemiscopeView extends DOMWidgetView {
       meta: this.el.querySelector('#chemiscope-meta') as HTMLElement,
       structure: this.el.querySelector('#chemiscope-structure') as HTMLElement,
     };
+
     DefaultVisualizer.load(config, JSON.parse(this.model.get('value'))).then(
       (newVisualizer: any) => {
         this.visualizer = newVisualizer;
       }
     );
-    //   //this.value_changed();
-    //   // this.model.on('change:value', this.value_changed, this);
-    // }
-    // // value_changed() {
-    // //   const config = {
-    // //     map: 'chemiscope-map',
-    // //     info: 'chemiscope-info',
-    // //     meta: 'chemiscope-meta',
-    // //     structure: 'chemiscope-structure',
-    // //   };
-    // //   DefaultVisualizer.load(config, this.model.get('value')).then(
-    // //     (newVisualizer) => {
-    // //       this.visualizer = newVisualizer;
-    // //     }
-    // //   );
-    // // }
   }
   remove() {
     if (this.visualizer !== undefined) {
