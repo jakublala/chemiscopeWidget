@@ -7,15 +7,13 @@
 """
 TODO: Add module docstring
 """
-import json
-
 from ipywidgets import DOMWidget, ValueWidget, register
 from traitlets import Unicode, Bool, validate, TraitError
 
 from ._frontend import module_name, module_version
 
 @register
-class Chemiscope(DOMWidget, ValueWidget):
+class widget(DOMWidget, ValueWidget):
     _model_name = Unicode('ChemiscopeModel').tag(sync=True)
     _model_module = Unicode(module_name).tag(sync=True)
     _model_module_version = Unicode(module_version).tag(sync=True)
@@ -25,10 +23,4 @@ class Chemiscope(DOMWidget, ValueWidget):
     _view_module = Unicode(module_name).tag(sync=True)
     _view_module_version = Unicode(module_version).tag(sync=True)
     
-    with open("../examples/chemiscope.json") as f:
-            value = Unicode(json.dumps(json.load(f))).tag(sync=True)
-
-# def display(frames, properties):
-#     write_input("chemiscope.json", frames, properties=properties)
-#     x = Chemiscope()
-#     return
+    value = Unicode().tag(sync=True)

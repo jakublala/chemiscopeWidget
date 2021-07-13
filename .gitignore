@@ -155,8 +155,4 @@ chemiscopeWidget/labextension/*.tgz
 # Packed lab extensions
 chemiscopeWidget/labextension
 
-# Actual Chemiscope
-chemiscope/node_modules/
-chemiscope/dist/
-chemiscope/standalone.html
-
+.vscode/
