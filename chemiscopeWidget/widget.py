@@ -14,8 +14,6 @@ from traitlets import Unicode, Bool, validate, TraitError
 
 from ._frontend import module_name, module_version
 
-from .input import write_input
-
 @register
 class Chemiscope(DOMWidget, ValueWidget):
     _model_name = Unicode('ChemiscopeModel').tag(sync=True)
@@ -30,7 +28,7 @@ class Chemiscope(DOMWidget, ValueWidget):
     with open("../examples/chemiscope.json") as f:
             value = Unicode(json.dumps(json.load(f))).tag(sync=True)
 
-def display(frames, properties):
-    write_input("chemiscope.json", frames, properties=properties)
-    x = Chemiscope()
-    return
+# def display(frames, properties):
+#     write_input("chemiscope.json", frames, properties=properties)
+#     x = Chemiscope()
+#     return
