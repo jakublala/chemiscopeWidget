@@ -74,4 +74,4 @@ If you make a change to the python code then you will need to restart the notebo
 # Development Notes
 Currently, the widget seems to only work in Jupyter Notebook.
 
-Chemiscope also needs to be build locally from this branch - https://github.com/jakublala/chemiscope/tree/myWidgetWorkspace
+Chemiscope also needs to be build locally from this branch - https://github.com/jakublala/chemiscope/tree/widget
